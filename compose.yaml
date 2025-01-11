@@ -1,20 +1,20 @@
-# sudo docker compose exec cluster-m1 redis-cli -a mycluster --cluster create 127.0.0.1:7380 127.0.0.1:7381 127.0.0.1:7382 --cluster-yes
+# sudo docker compose exec cluster-m1 redis-cli -a foobared --cluster create 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 --cluster-yes
 
 services:
   redis:
     image: redis/redis-stack-server:latest
     network_mode: host
     environment:
-      - 'REDIS_ARGS=--port 6380 --requirepass myredis --appendonly yes'
+      - 'REDIS_ARGS=--port 6379 --requirepass foobared'
   cluster-m1:
     image: redis:latest
     network_mode: host
-    command: 'redis-server --port 7380 --requirepass mycluster --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes'
+    command: 'redis-server --port 7000 --requirepass foobared --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes'
   cluster-m2:
     image: redis:latest
     network_mode: host
-    command: 'redis-server --port 7381 --requirepass mycluster --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes'
+    command: 'redis-server --port 7001 --requirepass foobared --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes'
   cluster-m3:
     image: redis:latest
     network_mode: host
-    command: 'redis-server --port 7382 --requirepass mycluster --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes'
+    command: 'redis-server --port 7002 --requirepass foobared --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes'

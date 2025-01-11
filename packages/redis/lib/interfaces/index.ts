@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 export type Namespace = string | symbol;
 
 export type Constructor<T, Arguments extends unknown[] = any[]> = new (...arguments_: Arguments) => T;

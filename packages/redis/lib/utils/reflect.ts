@@ -1,8 +1,8 @@
 /**
- * This is equivalent to `Reflect.get()`.
+ * Equivalent to `Reflect.get()`.
  *
- * @param target - The target object
+ * @param target - An object
  * @param key - The property name
- * @returns Unknown value
+ * @returns An unknown value
  */
 export const get = <T>(target: object, key: PropertyKey) => Reflect.get(target, key) as T;

@@ -6,6 +6,8 @@ export const REDIS_CLIENTS = Symbol();
 
 export const NAMESPACE_KEY = Symbol();
 
+export const MODULE_ID = 'RedisModule';
+
 /**
  * The default redis namespace.
  */

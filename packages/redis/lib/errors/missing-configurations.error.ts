@@ -3,7 +3,10 @@
  */
 export class MissingConfigurationsError extends Error {
   constructor() {
-    super(`Missing required asynchronous configurations. Expected one of: "useFactory", "useClass", "useExisting".`);
-    this.name = this.constructor.name;
+    super('Asynchronous configurations are missing, it can be one of: useFactory | useClass | useExisting.');
+  }
+
+  get name() {
+    return this.constructor.name;
   }
 }

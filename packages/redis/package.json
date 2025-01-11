@@ -48,7 +48,7 @@
     "ioredis": "^5.0.0"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"

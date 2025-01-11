@@ -20,7 +20,7 @@ export const isError = (value: unknown): value is Error => {
 };
 
 /**
- * Returns `true` if value is a direct instance of class.
+ * Returns `true` if the value is a direct instance of class.
  *
  * @param instance - Any value
  * @param class_ - A class or function that can be instantiated

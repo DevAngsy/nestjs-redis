@@ -2,17 +2,60 @@ import { Type, ModuleMetadata, Provider, InjectionToken, OptionalFactoryDependen
 import type { Redis, RedisOptions } from 'ioredis';
 import { Namespace } from '@/interfaces';
 
+export interface RedisModuleOptions {
+  /**
+   * If set to `true`, all connections will be closed automatically on nestjs application shutdown.
+   *
+   * @defaultValue `true`
+   */
+  closeClient?: boolean;
+
+  /**
+   * Common options to be passed to each entry.
+   */
+  commonOptions?: RedisOptions;
+
+  /**
+   * If set to `true`, then ready logging will be displayed when the connection is ready.
+   *
+   * @defaultValue `true`
+   */
+  readyLog?: boolean;
+
+  /**
+   * If set to `true`, then errors that occurred while connecting will be displayed by the built-in logger.
+   *
+   * @defaultValue `true`
+   */
+  errorLog?: boolean;
+
+  loggerContext?: string;
+
+  loggerTimestamp?: boolean;
+
+  /**
+   * Used to define one or more redis client connections.
+   */
+  entries?: RedisClientOptions | RedisClientOptions[];
+
+  /**
+   * Called before the connection is created.
+   */
+  beforeCreate?: () => void;
+}
+
 export interface RedisClientOptions extends RedisOptions {
   /**
-   * Name of the connection. If the name is not given then it will be set to "default".
+   * Name of the redis client connection. If the name is not given then it will be set to "default".
    *
    * Please note that you shouldn't have multiple connections without a namespace, or with the same namespace, otherwise they will get overridden.
    *
-   * For the default name you can also explicitly import `DEFAULT_REDIS`.
+   * For the default namespace, you can explicitly import `DEFAULT_REDIS` to use it.
    *
    * @defaultValue `"default"`
    */
   namespace?: Namespace;
+
   /**
    * Connection url to be used to specify connection options as a redis:// URL or rediss:// URL when using TLS.
    *
@@ -32,10 +75,12 @@ export interface RedisClientOptions extends RedisOptions {
    * ```
    */
   url?: string;
+
   /**
    * Used to specify the path to Unix domain sockets.
    */
   path?: string;
+
   /**
    * Manually providing a redis instance.
    *
@@ -48,52 +93,19 @@ export interface RedisClientOptions extends RedisOptions {
    * ```
    */
   provide?: () => Redis;
+
   /**
    * Called after the connection has been created.
    */
   created?: (client: Redis) => void;
-  /**
-   * Function to be executed after the connection is created.
-   *
-   * @deprecated Use the new `created` instead.
-   */
-  onClientCreated?: (client: Redis) => void;
 }
 
-export interface RedisModuleOptions {
-  /**
-   * If set to `true`, all connections will be closed automatically on nestjs application shutdown.
-   *
-   * @defaultValue `true`
-   */
-  closeClient?: boolean;
-  /**
-   * Common options to be passed to each `config`.
-   */
-  commonOptions?: RedisOptions;
-  /**
-   * If set to `true`, then ready logging will be displayed when the connection is ready.
-   *
-   * @defaultValue `true`
-   */
-  readyLog?: boolean;
-  /**
-   * If set to `true`, then errors that occurred while connecting will be displayed by the built-in logger.
-   *
-   * @defaultValue `true`
-   */
-  errorLog?: boolean;
-  /**
-   * Used to specify single or multiple connections.
-   */
-  config?: RedisClientOptions | RedisClientOptions[];
-  /**
-   * Called before the connection is created.
-   */
-  beforeCreate?: () => void;
+export interface ExtraRedisModuleOptions {
+  isGlobal?: boolean;
 }
 
 export interface RedisModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useFactory?: (...args: any[]) => RedisModuleOptions | Promise<RedisModuleOptions>;
   useClass?: Type<RedisOptionsFactory>;
   useExisting?: Type<RedisOptionsFactory>;
